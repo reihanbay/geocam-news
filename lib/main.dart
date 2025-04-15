@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocam_news/core/constants/nav_route.dart';
 import 'package:geocam_news/features/geocam/presentation/homecam_screen.dart';
 import 'package:geocam_news/features/main_screen.dart';
+import 'package:geocam_news/features/news/presentation/detail_new_screen.dart';
 import 'package:geocam_news/features/news/presentation/news_screen.dart';
 import 'package:geocam_news/shared/bottomnav_provider.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,10 @@ class MyApp extends StatelessWidget {
       routes: {
         NavRoute.main.route : (context) => const MainScreen(),
         NavRoute.homeCam.route: (context) => const HomecamScreen(),
-        NavRoute.news.route: (context) => const NewsScreen()
+        NavRoute.news.route: (context) => const NewsScreen(),
+        NavRoute.detailNews.route: (context) => NewsDetailScreen(
+          model: ModalRoute.of(context)?.settings.arguments as String?
+        )
       },
     );
   }
