@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:geocam_news/core/constants/nav_route.dart';
+import 'package:geocam_news/features/news/domain/entity/news_entity.dart';
 
 class NewsCard extends StatelessWidget {
-  final String model;
+  final NewsEntity model;
   const NewsCard({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, NavRoute.detailNews.route, arguments: model);
+        Navigator.pushNamed(context, NavRoute.detailNews.route,
+            arguments: model);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -28,12 +30,14 @@ class NewsCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                'https://images.unsplash.com/photo-1546636889-ba9fdd63583e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3RyZWV0fGVufDB8fDB8fHww',
-                height: 72,
-                width: 72,
-                fit: BoxFit.cover,
-              ),
+              child: model.urlToImage != null
+                  ? Image.network(
+                      model.urlToImage!,
+                      height: 72,
+                      width: 72,
+                      fit: BoxFit.cover,
+                    )
+                  : Icon(Icons.broken_image, size: 72),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -41,7 +45,7 @@ class NewsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Lorem ipsum dolor sit amet,",
+                    model.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -52,13 +56,12 @@ class NewsCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    "Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et.",
+                    model.description??"Tap to see description",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 13
-                    ),
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 13),
                   ),
                 ],
               ),

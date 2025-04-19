@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geocam_news/features/news/presentation/viewmodel/news_viewmodel.dart';
+import 'package:provider/provider.dart';
 import 'widget/news_card.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -11,6 +13,7 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
+    context.read<NewsViewModel>().getNews();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       body: SafeArea(
@@ -29,16 +32,22 @@ class _NewsScreenState extends State<NewsScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: NewsCard(model: "Model",),
-                    );
-                  },
-                ),
+              Consumer<NewsViewModel>(
+                builder: (context, value, child) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: value.listNews.length-1,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: NewsCard(
+                            model: value.listNews[index],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),
