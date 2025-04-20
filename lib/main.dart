@@ -1,13 +1,34 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geocam_news/core/constants/nav_route.dart';
+import 'package:geocam_news/core/services/api_client_services.dart';
 import 'package:geocam_news/features/geocam/presentation/homecam_screen.dart';
 import 'package:geocam_news/features/main_screen.dart';
+import 'package:geocam_news/features/news/data/datasources/news_local_datasources.dart';
+import 'package:geocam_news/features/news/data/datasources/news_remote_datasources.dart';
+import 'package:geocam_news/features/news/data/repositories/news_repository_impl.dart';
+import 'package:geocam_news/features/news/domain/entity/news_entity.dart';
+import 'package:geocam_news/features/news/domain/repositories/news_repository.dart';
+import 'package:geocam_news/features/news/domain/usecase/local_news_usecase.dart';
+import 'package:geocam_news/features/news/domain/usecase/news_usecase.dart';
+import 'package:geocam_news/features/news/presentation/detail_new_screen.dart';
 import 'package:geocam_news/features/news/presentation/news_screen.dart';
+import 'package:geocam_news/features/news/presentation/viewmodel/detail_news_viewmodel.dart';
+import 'package:geocam_news/features/news/presentation/viewmodel/news_viewmodel.dart';
 import 'package:geocam_news/shared/bottomnav_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  //News
+  ApiClient client = ApiClient();
+  NewsLocalDatasources newsLocalDatasource = NewsLocalDatasources();
+  NewsRemoteDatasources newsApiServices = NewsRemoteDatasources(client);
+  NewsRepository newsRepo = NewsRepositoryImpl(newsApiServices, newsLocalDatasource);
+  NewsUsecase newsUsecase = NewsUsecase(newsRepo);
+  LocalNewsUsecase newsLocalUsecase = LocalNewsUsecase(newsRepo);
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => NewsViewModel(newsUsecase, newsLocalUsecase)),
+    ChangeNotifierProvider(create: (context) => DetailNewsViewmodel(newsLocalUsecase)),
     ChangeNotifierProvider(create: (context) => BottomNavProvider())
   ],
   child: MyApp())
@@ -35,7 +56,10 @@ class MyApp extends StatelessWidget {
       routes: {
         NavRoute.main.route : (context) => const MainScreen(),
         NavRoute.homeCam.route: (context) => const HomecamScreen(),
-        NavRoute.news.route: (context) => const NewsScreen()
+        NavRoute.news.route: (context) => const NewsScreen(),
+        NavRoute.detailNews.route: (context) => NewsDetailScreen(
+          model: ModalRoute.of(context)?.settings.arguments as NewsEntity
+        )
       },
     );
   }
