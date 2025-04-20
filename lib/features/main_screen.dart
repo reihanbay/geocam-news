@@ -27,11 +27,11 @@ class _MainScreenState extends State<MainScreen> {
         destinations: [
           NavigationDestination(
             icon: SvgPicture.asset("assets/location.svg"), 
-            selectedIcon: SvgPicture.asset('assets/location_on.svg'),
+            selectedIcon: SvgPicture.asset('assets/location_on.svg', colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn)),
             label: "Home"),
           NavigationDestination(
             icon: SvgPicture.asset("assets/news.svg"), 
-            selectedIcon: SvgPicture.asset('assets/news_on.svg'),
+            selectedIcon: SvgPicture.asset('assets/news_on.svg', colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.primary, BlendMode.srcIn)),
             label: "News")
       ]),
       body: Consumer<BottomNavProvider>(builder: (context, value, child) {
