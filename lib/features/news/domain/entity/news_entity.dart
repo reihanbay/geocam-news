@@ -1,23 +1,20 @@
-import '../../data/models/news_model_response.dart';
 
 class NewsEntity {
-    Source source;
     String? author;
     String title;
     String? description;
     String url;
-    String? urlToImage;
+    String? imageUrl;
     String publishedAt;
     String? content;
     final bool isBookmark;
 
     NewsEntity({
-        required this.source,
         required this.author,
         required this.title,
         required this.description,
         required this.url,
-        required this.urlToImage,
+        required this.imageUrl,
         required this.publishedAt,
         required this.content,
         this.isBookmark = false
@@ -26,12 +23,11 @@ class NewsEntity {
     bool? isBookmark,
   }) {
     return NewsEntity(
-      source: source,
       author: author,
       title: title,
       description: description,
       url: url,
-      urlToImage: urlToImage,
+      imageUrl: imageUrl,
       content: content,
       publishedAt: publishedAt,
       isBookmark: isBookmark ?? this.isBookmark,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geocam_news/core/constants/nav_route.dart';
 import 'package:geocam_news/features/news/domain/entity/news_entity.dart';
+import 'package:provider/provider.dart';
+
+import '../viewmodel/news_viewmodel.dart';
 
 class NewsCard extends StatelessWidget {
   final NewsEntity model;
@@ -9,9 +12,12 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, NavRoute.detailNews.route,
+      onTap: () async {
+        await Navigator.pushNamed(context, NavRoute.detailNews.route,
             arguments: model);
+
+        context.read<NewsViewModel>().getNews();
+        context.read<NewsViewModel>().getNewsBookmarked();
       },
       child: Container(
         decoration: BoxDecoration(
@@ -30,9 +36,9 @@ class NewsCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: model.urlToImage != null
+              child: model.imageUrl != null
                   ? Image.network(
-                      model.urlToImage!,
+                      model.imageUrl!,
                       height: 72,
                       width: 72,
                       fit: BoxFit.cover,

@@ -4,7 +4,7 @@ class NewsModelResponse {
     String title;
     String? description;
     String url;
-    String? urlToImage;
+    String? imageUrl;
     String publishedAt;
     String? content;
 
@@ -14,7 +14,7 @@ class NewsModelResponse {
         required this.title,
         required this.description,
         required this.url,
-        required this.urlToImage,
+        required this.imageUrl,
         required this.publishedAt,
         required this.content,
     });
@@ -25,21 +25,10 @@ class NewsModelResponse {
         title: json["title"],
         description: json["description"],
         url: json["url"],
-        urlToImage: json["urlToImage"],
+        imageUrl: json["urlToImage"],
         publishedAt: json["publishedAt"],
         content: json["content"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "source": source.toJson(),
-        "author": author,
-        "title": title,
-        "description": description,
-        "url": url,
-        "urlToImage": urlToImage,
-        "publishedAt": publishedAt,
-        "content": content,
-    };
 }
 
 class Source {
