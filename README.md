@@ -1,3 +1,5 @@
+
+<img src="ss-geocam (1).jpg" width="144"> <img src="ss-geocam (2).jpg" width="144"> <img src="ss-geocam (3).jpg" width="144">
 # 📱 GeoCam News - Flutter App
 
 A Flutter application created as part of a mobile developer challenge. GeoCam News allows users to capture photos with geolocation, fetch news from an API, bookmark news articles, and store data locally using SQLite and SharedPreferences.
